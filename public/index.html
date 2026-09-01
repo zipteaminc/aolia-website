@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aolia — Rethinking AI-native assessment for accreditation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #3e3a36;
+    --bg: #f2ede4;
+    --card: #e2dcd0;
+    --thumb: #d8d3cc;
+    --green: #78a287;
+    --pad: clamp(20px, 4.7vw, 68px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-variation-settings: 'opsz' 14;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  .serif { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+  .container { max-width: 1440px; margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+
+  /* ================= Scroll reveal ================= */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .75s cubic-bezier(.22,.61,.36,1), transform .75s cubic-bezier(.22,.61,.36,1);
+    transition-delay: var(--d, 0s);
+    will-change: opacity, transform;
+  }
+  .reveal.in-view { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ================= Header ================= */
+  .site-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 34px; padding-bottom: 12px;
+  }
+  .logo { display: block; flex-shrink: 0; }
+  .logo img { width: 142px; height: 48px; }
+  .nav-link { font-size: 18px; line-height: 25px; font-weight: 500; }
+
+  /* ================= Hero ================= */
+  .hero { text-align: center; padding-top: clamp(48px, 8vw, 94px); }
+  .hero h1 {
+    font-size: clamp(34px, 4.6vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    max-width: 706px; margin: 0 auto;
+  }
+  .hero .lede {
+    font-size: clamp(16px, 1.6vw, 18px); line-height: 1.61; letter-spacing: -0.01em;
+    max-width: 732px; margin: 30px auto 0;
+  }
+  .hero-art { max-width: 843px; margin: clamp(36px, 6vw, 82px) auto 0; }
+
+  /* ================= Subscribe ================= */
+  .subscribe {
+    position: relative;
+    width: min(522px, 100%);
+    height: 150px;
+    margin: 40px auto 0;
+    overflow: hidden;
+  }
+  .subscribe iframe {
+    display: block;
+    width: 100%;
+    height: 150px;
+    border: 0;
+    background: transparent;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 43px; padding: 10px 23px;
+    background: var(--green); border: none; border-radius: 10px;
+    color: #fff; font-size: 16px; line-height: 29px; font-weight: 500; letter-spacing: -0.16px;
+    font-family: inherit; font-variation-settings: 'opsz' 14;
+    white-space: nowrap; cursor: pointer;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  .btn:active { transform: scale(.98); }
+
+  /* ================= Dividers / sections ================= */
+  .rule { border: none; border-top: 1px solid rgba(62,58,54,0.15); margin-top: clamp(80px, 13vw, 190px); }
+  .section { padding-top: clamp(48px, 6vw, 82px); }
+
+  .split { display: flex; gap: clamp(32px, 5vw, 110px); align-items: flex-start; }
+  .split .left  { flex: 0 1 553px; }
+  .split .right { flex: 1 1 560px; max-width: 573px; }
+  .split h2 {
+    font-size: clamp(30px, 3.7vw, 44px);
+    line-height: 1.045; letter-spacing: -0.04em;
+  }
+  .split .art { margin-top: clamp(24px, 3vw, 34px); }
+  .body-sm { font-size: 15.6px; line-height: 25px; }
+  .body-sm + .body-sm { margin-top: 26px; }
+  .bullets { list-style: none; margin-top: 12px; }
+  .bullets li {
+    position: relative; padding-left: 15.8px;
+    font-size: 15.6px; line-height: 25px; margin-top: 6px;
+  }
+  .bullets li::before {
+    content: ""; position: absolute; left: 0.9px; top: 10.8px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--ink);
+  }
+  .green { color: var(--green); }
+  .underline-vector { width: min(396px, 90%); margin-top: 28px; }
+  @media (max-width: 900px) {
+    .split { flex-direction: column; }
+    .split .left, .split .right { flex: none; width: 100%; max-width: 640px; }
+  }
+
+  /* ================= Quote card ================= */
+  .quote-card {
+    position: relative;
+    background: #fff; border-radius: 20px;
+    margin-top: clamp(72px, 10vw, 148px);
+    padding: clamp(48px, 7vw, 104px) clamp(24px, 4vw, 40px) clamp(48px, 6.5vw, 96px) clamp(24px, 11.4vw, 164px);
+  }
+  .quote-mark { position: absolute; left: clamp(24px, 6.3vw, 91px); top: clamp(50px, 7.6vw, 114px); width: 36.7px; }
+  .quote-card blockquote {
+    font-size: clamp(18px, 2.4vw, 34px);
+    line-height: 1.353; letter-spacing: -0.04em;
+    max-width: 1031px;
+  }
+  .quote-card .who { margin-top: clamp(40px, 5.3vw, 76px); font-size: 18px; line-height: 20px; font-weight: 500; letter-spacing: -0.02em; }
+  .quote-card .org { margin-top: 10px; font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: -0.02em; color: rgba(62,58,54,0.5); }
+  @media (max-width: 700px) {
+    .quote-card { padding-left: clamp(24px, 6vw, 40px); }
+    .quote-mark { position: static; margin-bottom: 20px; }
+    .quote-card .who { font-size: 15px; line-height: 19px; }
+    .quote-card .org { font-size: 13px; }
+  }
+
+  /* ================= Team ================= */
+  .team-head h2 { font-size: clamp(30px, 3.7vw, 44px); line-height: 1.045; letter-spacing: -0.04em; }
+  .team-squiggle { width: min(332px, 80%); margin-top: 10px; }
+  .team-intro { margin-top: 26px; font-size: 18px; line-height: 28px; letter-spacing: -0.01em; max-width: 547px; }
+
+  .team-wrap { position: relative; margin-top: clamp(32px, 4vw, 56px); }
+  .team-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 6.1vw, 88px) clamp(24px, 6.1vw, 88px);
+  }
+  .t-card {
+    background: var(--card); border-radius: 16px;
+    height: 426px; overflow: hidden;
+    padding-top: 38px; text-align: center;
+  }
+  .t-card .portrait { height: 162px; display: flex; justify-content: center; align-items: flex-start; }
+  .t-card .portrait img { max-height: 162px; width: auto; }
+  .t-card .name { margin-top: 27px; font-size: 18px; line-height: 24px; font-weight: 500; }
+  .t-card .role { margin-top: 4px; font-size: 14px; line-height: 20px; font-weight: 500; opacity: .5; padding: 0 12px; }
+  .t-card .desc { margin-top: 13px; font-size: 14px; line-height: 22px; font-weight: 500; padding: 0 20px; }
+  .t-card .li   { margin-top: 22px; font-size: 14px; line-height: 21px; font-weight: 700; opacity: .55; }
+  .t-card .li a { text-decoration: underline; text-underline-position: from-font; }
+
+  .team-nav { display: none; }
+
+  /* Slider below 1100px */
+  @media (max-width: 1100px) {
+    .team-track {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      gap: 20px;
+      scroll-snap-type: x mandatory;
+      padding-block: 4px;
+      margin-right: calc(var(--pad) * -1);
+      padding-right: var(--pad);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .team-track::-webkit-scrollbar { display: none; }
+    .t-card {
+      flex: 0 0 min(360px, calc(100% - 44px));
+      scroll-snap-align: start;
+      height: auto;
+      align-self: stretch;
+      padding-bottom: 38px;
+    }
+    .team-nav {
+      display: flex; gap: 10px; justify-content: flex-start;
+      margin-top: 18px;
+    }
+    .team-nav button {
+      width: 43px; height: 43px;
+      border: none; background: none; padding: 0;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: opacity .2s ease;
+    }
+    .team-nav button svg { display: block; }
+    .team-nav button.prev svg { transform: scaleX(-1); }
+  }
+
+  /* ================= Blog ================= */
+  .field-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+  .field-head h2 { font-size: clamp(30px, 3.7vw, 44px); line-height: 1.045; letter-spacing: -0.04em; }
+  .posts {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 6.1vw, 88px);
+    margin-top: clamp(36px, 5vw, 62px);
+  }
+  .post .thumb {
+    height: 260px; background: var(--thumb);
+    border-radius: 16px; overflow: hidden; position: relative;
+  }
+  .post .thumb img {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    height: 100%; width: auto; max-width: none;
+    transition: transform .5s ease;
+  }
+
+  .post .date  { margin-top: 20px; font-size: 13.7px; line-height: 21px; font-weight: 500; opacity: .5; }
+  .post .title { margin-top: 9px; font-size: 18px; line-height: 23.4px; font-weight: 500; }
+  .post .more  { display: inline-block; margin-top: 13px; font-size: 14px; line-height: 21px; font-weight: 600; letter-spacing: -0.01em; text-decoration: underline; text-underline-position: from-font; }
+  @media (max-width: 1000px) { .posts { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .posts { grid-template-columns: 1fr; max-width: 420px; gap: 48px; }
+    .field-head { flex-direction: column; }
+    .logo img { width: 113px; height: 38px; }
+    .post .date  { font-size: 11.7px; }
+    .post .title { font-size: 16px; line-height: 21px; }
+    .post .more  { font-size: 12px; }
+  }
+
+  /* ================= Final CTA ================= */
+  .cta { text-align: center; padding-top: clamp(56px, 7vw, 92px); }
+  .cta .mark { width: 34px; margin: 0 auto; }
+  .cta h2 { margin-top: 24px; font-size: clamp(30px, 3.7vw, 44px); line-height: 1.045; letter-spacing: -0.04em; }
+  .cta .lede { margin: 26px auto 0; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.61; letter-spacing: -0.01em; max-width: 732px; }
+
+  /* ================= Footer ================= */
+  .site-footer {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding-top: clamp(64px, 9.5vw, 140px); padding-bottom: 34px;
+    font-size: 14px; line-height: 25px; font-weight: 500;
+  }
+  .site-footer nav { display: flex; gap: clamp(18px, 2.8vw, 40px); }
+  /* Hover states — only on devices with a real pointer (no hover on touch/mobile) */
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover { filter: brightness(1.06); }
+    .post:hover .thumb img { transform: translateX(-50%) scale(1.04); }
+    .site-footer a:hover { text-decoration: underline; }
+    .team-nav button:hover { opacity: .85; }
+  }
+  /* Card lift only on desktop layout (above the slider breakpoint) */
+  @media (hover: hover) and (pointer: fine) and (min-width: 1101px) {
+    .t-card { transition: transform .35s ease; }
+    .t-card:hover { transform: translateY(-4px); }
+  }
+</style>
+</head>
+<body>
+
+<header class="container site-header">
+  <a href="#" class="logo" aria-label="Aolia"><img src="assets/logo.png" alt="Aolia" width="142" height="48"></a>
+  <a href="https://blog.aolia.ai/" class="nav-link">Blog</a>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="container hero">
+  <h1 class="serif reveal">We’re rethinking AI-native<br>assessment for accreditation.</h1>
+  <p class="lede reveal" style="--d:.1s">
+    Ongoing exploration of how assessment for accreditation could work better.
+    Here we’re sharing the research, the conversations, and the hard questions behind it.
+  </p>
+  <div class="subscribe reveal" style="--d:.2s">
+    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
+  </div>
+  <div class="hero-art reveal" style="--d:.3s">
+    <img src="assets/hero-illustration.png" alt="Scholar at desk with books and lamp — editorial illustration">
+  </div>
+</section>
+
+<div class="container"><hr class="rule"></div>
+
+<!-- ================= ASSESSMENT IS HARD ================= -->
+<section class="container section">
+  <div class="split">
+    <div class="left">
+      <h2 class="serif reveal">Assessment for<br>accreditation is hard.<br><span class="green">We think it can work better.</span></h2>
+      <div class="art reveal" style="--d:.15s">
+        <img src="assets/rubrics.png" alt="Rubrics grid illustration" style="width:94px;">
+      </div>
+    </div>
+    <div class="right">
+      <p class="body-sm reveal">Assessment for accreditation follows a familiar pattern across systems like AACSB and ABET: reviewing student work, applying evaluation criteria, and documenting evidence of learning outcomes.</p>
+      <p class="body-sm reveal" style="--d:.08s">This work sits at the intersection of faculty workload, institutional accountability, and continuous improvement — yet remains one of the least well-supported workflows in higher education.</p>
+      <p class="body-sm reveal" style="--d:.16s">We’re starting by looking at a few of the most challenging parts:</p>
+      <ul class="bullets reveal" style="--d:.24s">
+        <li>how student work is selected for evaluation</li>
+        <li>how scoring stays consistent across faculty</li>
+        <li>how results are documented in ways accreditors can trust</li>
+      </ul>
+      <p class="body-sm reveal" style="--d:.32s">We are exploring how this process could be redesigned in an AI-native way — reducing manual effort while strengthening the evidence behind assessment with faculty remaining fully in control.</p>
+    </div>
+  </div>
+</section>
+
+<div class="container"><hr class="rule"></div>
+
+<!-- ================= PILOTING WITH CGU ================= -->
+<section class="container section">
+  <div class="split">
+    <div class="left">
+      <h2 class="serif reveal">Piloting with Claremont<br>Graduate University.</h2>
+      <div class="art reveal" style="--d:.15s">
+        <img src="assets/cgu-building.png" alt="Claremont Graduate University building illustration" style="width:126px;">
+      </div>
+    </div>
+    <div class="right">
+      <p class="body-sm reveal">Aolia is an initiative by Macnica, a global technology solutions company headquartered in Japan.</p>
+      <p class="body-sm reveal" style="--d:.08s">Our early pilot work with Claremont Graduate University, home of the Drucker School of Management, grounds the work in real assessment workflows, faculty needs, and the practical challenges of accreditation.</p>
+      <p class="body-sm reveal" style="--d:.16s">We’re starting with AACSB-accredited business schools, with the longer-term goal of supporting accreditation and outcomes assessment across higher education</p>
+      <img class="underline-vector reveal" style="--d:.24s" src="assets/green-underline.png" alt="">
+    </div>
+  </div>
+
+  <figure class="quote-card reveal">
+    <img class="quote-mark" src="assets/quote-mark.svg" alt="">
+    <blockquote>Accreditation is critical for business schools in today's market, with nothing more time consuming in that process than assessment. A tool that frees faculty from the meticulous processes associated with assessment - while strengthening the evidence underneath it - isn't just useful. That's a game changer.</blockquote>
+    <figcaption>
+      <p class="who">Henry Y. Hwang Dean, Drucker School of Management</p>
+      <p class="org">Claremont Graduate University</p>
+    </figcaption>
+  </figure>
+</section>
+
+<div class="container" style="margin-top: clamp(80px, 13vw, 190px);"></div>
+
+<!-- ================= TEAM ================= -->
+<section class="container section" style="padding-top:0;">
+  <div class="team-head">
+    <h2 class="serif reveal">Who is behind this.</h2>
+    <img class="team-squiggle reveal" style="--d:.12s" src="assets/squiggle.svg" alt="">
+    <p class="team-intro reveal" style="--d:.2s">We’re a team exploring how assessment for accreditation can work better — alongside educators.</p>
+  </div>
+
+  <div class="team-wrap">
+    <div class="team-track" id="teamTrack" data-stagger>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-daisuke.png" alt="Daisuke Nishimura portrait illustration" style="height:151px;"></div>
+        <h3 class="name">Daisuke Nishimura</h3>
+        <p class="role">Co-Founder &amp; Managing Director</p>
+        <p class="desc">Leading product strategy for AI-native<br>assessment at Aolia.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-daichi.png" alt="Daichi Yoshikawa portrait illustration" style="height:156px;"></div>
+        <h3 class="name">Daichi Yoshikawa</h3>
+        <p class="role">Chief Engineer &amp; Product Engineering Lead</p>
+        <p class="desc">Leading end-to-end development of<br>Aolia.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-yuki.png" alt="Yuki Baba portrait illustration" style="height:160px;"></div>
+        <h3 class="name">Yuki Baba</h3>
+        <p class="role">DevOps Engineer</p>
+        <p class="desc">Web application infrastructure<br>development.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-dolma.png" alt="Dolma Rawat portrait illustration" style="height:161.97px;"></div>
+        <h3 class="name">Dolma Rawat</h3>
+        <p class="role">Go to Market &amp; Research Lead</p>
+        <p class="desc">Lead product and customer research for<br>Aolia.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-jerelyn.png" alt="Jerelyn Co portrait illustration" style="height:162px;"></div>
+        <h3 class="name">Jerelyn Co</h3>
+        <p class="role">AI Technical Lead</p>
+        <p class="desc">Leads the technical strategy of the AI<br>team.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-karyna.png" alt="Karyna Shkoda portrait illustration" style="height:160px;"></div>
+        <h3 class="name">Karyna Shkoda</h3>
+        <p class="role">Marketing Specialist</p>
+        <p class="desc">Focused on content and marketing<br>strategy.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
+    </div>
+    <div class="team-nav">
+      <button type="button" class="prev" id="teamPrev" aria-label="Previous team member">
+        <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="43" height="43" rx="10" fill="#78A287"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M17.2993 29.4428C17.6306 29.7617 18.167 29.7617 18.4974 29.4428L25.5037 22.682C26.1655 22.0435 26.1655 21.0075 25.5037 20.3689L18.4466 13.5578C18.1187 13.2421 17.5891 13.2378 17.257 13.5494C16.918 13.8674 16.9138 14.3917 17.2477 14.7147L23.7066 20.947C24.0379 21.2667 24.0379 21.7843 23.7066 22.104L17.2993 28.2867C16.968 28.6056 16.968 29.124 17.2993 29.4428Z" fill="white"/>
+        </svg>
+      </button>
+      <button type="button" class="next" id="teamNext" aria-label="Next team member">
+        <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="43" height="43" rx="10" fill="#78A287"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M17.2993 29.4428C17.6306 29.7617 18.167 29.7617 18.4974 29.4428L25.5037 22.682C26.1655 22.0435 26.1655 21.0075 25.5037 20.3689L18.4466 13.5578C18.1187 13.2421 17.5891 13.2378 17.257 13.5494C16.918 13.8674 16.9138 14.3917 17.2477 14.7147L23.7066 20.947C24.0379 21.2667 24.0379 21.7843 23.7066 22.104L17.2993 28.2867C16.968 28.6056 16.968 29.124 17.2993 29.4428Z" fill="white"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div id="fromTheField" hidden>
+  <div class="container"><hr class="rule"></div>
+
+  <!-- ================= FROM THE FIELD ================= -->
+  <section class="container section">
+    <div class="field-head">
+      <h2 class="serif reveal">From the field.</h2>
+      <a href="https://blog.aolia.ai/" class="btn reveal" style="--d:.12s">All Posts</a>
+    </div>
+    <div class="posts" id="posts" data-stagger></div>
+  </section>
+</div>
+
+<div class="container"><hr class="rule"></div>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="container cta">
+  <img class="mark reveal" src="assets/cta-mark.svg" alt="">
+  <h2 class="serif reveal" style="--d:.1s">Follow the work as it happens.</h2>
+  <p class="lede reveal" style="--d:.2s">
+    We’re sharing the research, the hard questions, and what
+    we’re building — with the people who know this work best.
+  </p>
+  <div class="subscribe reveal" style="--d:.3s">
+    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="container site-footer">
+  <p>© 2026 Macnica, Inc. All rights reserved</p>
+  <nav>
+    <a href="https://blog.aolia.ai/">Blog</a>
+    <a href="#">Contact</a>
+    <a href="#">LinkedIn</a>
+  </nav>
+</footer>
+
+<script>
+  // ---- Scroll reveal ----
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealObserver = null;
+
+  function observeReveals(root) {
+    var scope = root || document;
+    var els = scope.querySelectorAll ? scope.querySelectorAll('.reveal') : [];
+    if (scope.classList && scope.classList.contains('reveal')) {
+      els = [scope].concat(Array.prototype.slice.call(els));
+    }
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in-view'); });
+      return;
+    }
+    if (!revealObserver) {
+      revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    }
+    els.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  function staggerGroup(group) {
+    Array.prototype.forEach.call(group.children, function (child, i) {
+      if (child.classList.contains('reveal')) {
+        child.style.setProperty('--d', (i % 6) * 0.09 + 's');
+      }
+    });
+  }
+
+  (function () {
+    document.querySelectorAll('[data-stagger]').forEach(staggerGroup);
+    observeReveals(document);
+  })();
+
+  // ---- Latest posts from Substack RSS (via same-origin proxy) ----
+  (function () {
+    var list = document.getElementById('posts');
+    if (!list) return;
+
+    function renderPost(post) {
+      var card = document.createElement('a');
+      card.className = 'post reveal';
+      card.href = post.url;
+
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      if (post.image) {
+        var img = document.createElement('img');
+        img.src = post.image;
+        img.alt = '';
+        thumb.appendChild(img);
+      }
+      card.appendChild(thumb);
+
+      var date = document.createElement('p');
+      date.className = 'date';
+      date.textContent = post.date;
+      card.appendChild(date);
+
+      var title = document.createElement('h3');
+      title.className = 'title';
+      title.textContent = post.title;
+      card.appendChild(title);
+
+      var more = document.createElement('span');
+      more.className = 'more';
+      more.textContent = 'Read more';
+      card.appendChild(more);
+
+      return card;
+    }
+
+    fetch('/api/posts')
+      .then(function (res) { return res.ok ? res.json() : Promise.reject(); })
+      .then(function (data) {
+        var posts = data && data.posts;
+        var section = document.getElementById('fromTheField');
+        if (!posts || !posts.length || !section) return;
+        list.replaceChildren.apply(list, posts.map(renderPost));
+        section.hidden = false;
+        staggerGroup(list);
+        observeReveals(section);
+      })
+      .catch(function () { /* leave From the field hidden */ });
+  })();
+
+  // ---- Team slider (active below 1100px) ----
+  (function () {
+    var track = document.getElementById('teamTrack');
+    var step = function () {
+      var card = track.querySelector('.t-card');
+      return card ? card.getBoundingClientRect().width + 20 : 396;
+    };
+    document.getElementById('teamPrev').addEventListener('click', function () {
+      track.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    document.getElementById('teamNext').addEventListener('click', function () {
+      track.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>
