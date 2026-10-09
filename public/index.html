@@ -71,19 +71,25 @@
 
   /* ================= Subscribe ================= */
   .subscribe {
-    position: relative;
+    display: flex; align-items: center; gap: 8px;
     width: min(522px, 100%);
-    height: 150px;
     margin: 40px auto 0;
-    overflow: hidden;
+    padding: 8px 8px 8px 28px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(62,58,54,.04), 0 6px 24px rgba(62,58,54,.06);
+    transition: box-shadow .2s ease;
   }
-  .subscribe iframe {
-    display: block;
-    width: 100%;
-    height: 150px;
-    border: 0;
-    background: transparent;
+  .subscribe:focus-within { box-shadow: 0 0 0 2px rgba(120,162,135,.45), 0 6px 24px rgba(62,58,54,.06); }
+  .subscribe input {
+    flex: 1; min-width: 0;
+    border: 0; outline: 0; background: transparent;
+    color: var(--ink); font-family: inherit; font-size: 17px; letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 14;
   }
+  .subscribe input::placeholder { color: var(--ink); opacity: 1; }
+  .subscribe .btn { height: 43px; padding: 10px 23px; border-radius: 8px; font-size: 17px; }
+  .subscribe .btn:hover { filter: brightness(.94); }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     height: 43px; padding: 10px 23px;
@@ -282,9 +288,10 @@
     Ongoing exploration of how assessment for accreditation could work better.
     Here we’re sharing the research, the conversations, and the hard questions behind it.
   </p>
-  <div class="subscribe reveal" style="--d:.2s">
-    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
-  </div>
+  <form class="subscribe reveal" style="--d:.2s" action="https://blog.aolia.ai/api/v1/free?nojs=true" method="post" target="_blank">
+    <input type="email" name="email" placeholder="Type your email…" aria-label="Email address" autocomplete="email" required>
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
   <div class="hero-art reveal" style="--d:.3s">
     <img src="assets/hero-illustration.png" alt="Scholar at desk with books and lamp — editorial illustration">
   </div>
@@ -438,9 +445,10 @@
     We’re sharing the research, the hard questions, and what
     we’re building — with the people who know this work best.
   </p>
-  <div class="subscribe reveal" style="--d:.3s">
-    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
-  </div>
+  <form class="subscribe reveal" style="--d:.3s" action="https://blog.aolia.ai/api/v1/free?nojs=true" method="post" target="_blank">
+    <input type="email" name="email" placeholder="Type your email…" aria-label="Email address" autocomplete="email" required>
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
 </section>
 
 <!-- ================= FOOTER ================= -->
