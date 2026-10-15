@@ -253,6 +253,14 @@
   .cta .mark { width: 34px; margin: 0 auto; }
   .cta h2 { margin-top: 24px; font-size: clamp(30px, 3.7vw, 44px); line-height: 1.045; letter-spacing: -0.04em; }
   .cta .lede { margin: 26px auto 0; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.61; letter-spacing: -0.01em; max-width: 732px; }
+  .cta-link {
+    display: inline-block; margin-top: 32px;
+    font-size: 18px; line-height: 25px; font-weight: 600; letter-spacing: -0.01em;
+    text-decoration: underline; text-underline-position: from-font; text-underline-offset: 3px;
+    transition: color .2s ease;
+  }
+  .cta-link:hover { color: #3d5a47; }
+  .cta-link:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 2px; }
 
   /* ================= Footer ================= */
   .site-footer {
@@ -441,15 +449,12 @@
 <!-- ================= FINAL CTA ================= -->
 <section class="container cta">
   <img class="mark reveal" src="assets/cta-mark.svg" alt="">
-  <h2 class="serif reveal" style="--d:.1s">Follow the work as it happens.</h2>
+  <h2 class="serif reveal" style="--d:.1s">Interested in becoming a design partner?</h2>
   <p class="lede reveal" style="--d:.2s">
-    We’re sharing the research, the hard questions, and what
-    we’re building — with the people who know this work best.
+    If you work on assessment for accreditation, we’d like to learn from your experience.
+    We’re inviting a small group of faculty and assessment teams to bring their perspectives to the work as it develops.
   </p>
-  <form class="subscribe reveal" style="--d:.3s" action="https://blog.aolia.ai/api/v1/free?nojs=true" method="post" target="_blank">
-    <input type="email" name="email" placeholder="Type your email…" aria-label="Email address" autocomplete="email" required>
-    <button type="submit" class="btn">Subscribe</button>
-  </form>
+  <a class="cta-link reveal" style="--d:.3s" href="mailto:hello@aolia.ai?subject=Design%20partner%20interest">Get in touch</a>
 </section>
 
 <!-- ================= FOOTER ================= -->
