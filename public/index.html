@@ -297,8 +297,10 @@
     Aolia is focused on reducing the workload of assessment for accreditation.
     Here we’re sharing the research, the conversations, and the hard questions behind it.
   </p>
-  <form class="subscribe reveal" style="--d:.2s" action="https://blog.aolia.ai/api/v1/free?nojs=true" method="post" target="_blank">
+  <form class="subscribe reveal" style="--d:.2s" action="https://blog.aolia.ai/subscribe" method="get" target="_blank" rel="noopener">
     <input type="email" name="email" placeholder="Type your email…" aria-label="Email address" autocomplete="email" required>
+    <input type="hidden" name="utm_source" value="aolia-website">
+    <input type="hidden" name="utm_medium" value="web">
     <button type="submit" class="btn">Subscribe</button>
   </form>
   <div class="hero-art reveal" style="--d:.3s">
