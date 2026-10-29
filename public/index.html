@@ -71,19 +71,25 @@
 
   /* ================= Subscribe ================= */
   .subscribe {
-    position: relative;
+    display: flex; align-items: center; gap: 8px;
     width: min(522px, 100%);
-    height: 150px;
     margin: 40px auto 0;
-    overflow: hidden;
+    padding: 8px 8px 8px 28px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(62,58,54,.04), 0 6px 24px rgba(62,58,54,.06);
+    transition: box-shadow .2s ease;
   }
-  .subscribe iframe {
-    display: block;
-    width: 100%;
-    height: 150px;
-    border: 0;
-    background: transparent;
+  .subscribe:focus-within { box-shadow: 0 0 0 2px rgba(120,162,135,.45), 0 6px 24px rgba(62,58,54,.06); }
+  .subscribe input {
+    flex: 1; min-width: 0;
+    border: 0; outline: 0; background: transparent;
+    color: var(--ink); font-family: inherit; font-size: 17px; letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 14;
   }
+  .subscribe input::placeholder { color: var(--ink); opacity: 1; }
+  .subscribe .btn { height: 43px; padding: 10px 23px; border-radius: 8px; font-size: 17px; }
+  .subscribe .btn:hover { filter: brightness(.94); }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     height: 43px; padding: 10px 23px;
@@ -110,6 +116,7 @@
   .body-sm { font-size: 15.6px; line-height: 25px; }
   .body-sm + .body-sm { margin-top: 26px; }
   .bullets { list-style: none; margin-top: 12px; }
+  .bullets + .body-sm { margin-top: 26px; }
   .bullets li {
     position: relative; padding-left: 15.8px;
     font-size: 15.6px; line-height: 25px; margin-top: 6px;
@@ -246,6 +253,14 @@
   .cta .mark { width: 34px; margin: 0 auto; }
   .cta h2 { margin-top: 24px; font-size: clamp(30px, 3.7vw, 44px); line-height: 1.045; letter-spacing: -0.04em; }
   .cta .lede { margin: 26px auto 0; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.61; letter-spacing: -0.01em; max-width: 732px; }
+  .cta-link {
+    display: inline-block; margin-top: 32px;
+    font-size: 18px; line-height: 25px; font-weight: 600; letter-spacing: -0.01em;
+    text-decoration: underline; text-underline-position: from-font; text-underline-offset: 3px;
+    transition: color .2s ease;
+  }
+  .cta-link:hover { color: #3d5a47; }
+  .cta-link:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 2px; }
 
   /* ================= Footer ================= */
   .site-footer {
@@ -271,20 +286,21 @@
 <body>
 
 <header class="container site-header">
-  <a href="#" class="logo" aria-label="Aolia"><img src="assets/logo.png" alt="Aolia" width="142" height="48"></a>
+  <a href="#" class="logo" aria-label="Aolia"><img src="assets/logo.svg" alt="Aolia" width="142" height="48"></a>
   <a href="https://blog.aolia.ai/" class="nav-link">Blog</a>
 </header>
 
 <!-- ================= HERO ================= -->
 <section class="container hero">
-  <h1 class="serif reveal">We’re rethinking AI-native<br>assessment for accreditation.</h1>
+  <h1 class="serif reveal">Less time on documentation.<br>More time improving learning.</h1>
   <p class="lede reveal" style="--d:.1s">
-    Ongoing exploration of how assessment for accreditation could work better.
+    Aolia is focused on reducing the workload of assessment for accreditation.
     Here we’re sharing the research, the conversations, and the hard questions behind it.
   </p>
-  <div class="subscribe reveal" style="--d:.2s">
-    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
-  </div>
+  <form class="subscribe reveal" style="--d:.2s" action="https://blog.aolia.ai/api/v1/free?nojs=true" method="post" target="_blank">
+    <input type="email" name="email" placeholder="Type your email…" aria-label="Email address" autocomplete="email" required>
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
   <div class="hero-art reveal" style="--d:.3s">
     <img src="assets/hero-illustration.png" alt="Scholar at desk with books and lamp — editorial illustration">
   </div>
@@ -306,30 +322,30 @@
       <p class="body-sm reveal" style="--d:.08s">This work sits at the intersection of faculty workload, institutional accountability, and continuous improvement — yet remains one of the least well-supported workflows in higher education.</p>
       <p class="body-sm reveal" style="--d:.16s">We’re starting by looking at a few of the most challenging parts:</p>
       <ul class="bullets reveal" style="--d:.24s">
-        <li>how student work is selected for evaluation</li>
-        <li>how scoring stays consistent across faculty</li>
-        <li>how results are documented in ways accreditors can trust</li>
+        <li>Making expectations clear and measurable before student work is collected, so evidence gaps surface early.</li>
+        <li>Helping faculty apply the same criteria consistently, with rationale and evidence behind scoring decisions.</li>
+        <li>Seeing student performance sooner, with traceable evidence to identify where attention may be needed.</li>
       </ul>
-      <p class="body-sm reveal" style="--d:.32s">We are exploring how this process could be redesigned in an AI-native way — reducing manual effort while strengthening the evidence behind assessment with faculty remaining fully in control.</p>
+      <p class="body-sm reveal" style="--d:.32s">We’re testing one principle: AI supports the work, and faculty own every decision.</p>
     </div>
   </div>
 </section>
 
 <div class="container"><hr class="rule"></div>
 
-<!-- ================= PILOTING WITH CGU ================= -->
+<!-- ================= BUILDING WITH THE FIELD ================= -->
 <section class="container section">
   <div class="split">
     <div class="left">
-      <h2 class="serif reveal">Piloting with Claremont<br>Graduate University.</h2>
+      <h2 class="serif reveal">Building with the field.</h2>
       <div class="art reveal" style="--d:.15s">
-        <img src="assets/cgu-building.png" alt="Claremont Graduate University building illustration" style="width:126px;">
+        <img src="assets/chairs.png" alt="Two chairs facing each other — sketch illustration" style="width:126px;">
       </div>
     </div>
     <div class="right">
-      <p class="body-sm reveal">Aolia is an initiative by Macnica, a global technology solutions company headquartered in Japan.</p>
-      <p class="body-sm reveal" style="--d:.08s">Our early pilot work with Claremont Graduate University, home of the Drucker School of Management, grounds the work in real assessment workflows, faculty needs, and the practical challenges of accreditation.</p>
-      <p class="body-sm reveal" style="--d:.16s">We’re starting with AACSB-accredited business schools, with the longer-term goal of supporting accreditation and outcomes assessment across higher education</p>
+      <p class="body-sm reveal">Aolia is an initiative of Macnica, a global technology solutions company headquartered in Japan.</p>
+      <p class="body-sm reveal" style="--d:.08s">Aolia grew from earlier research into how competencies are reflected in courses and student work. That research raised a practical question: how can schools understand what students have learned beyond what course grades alone can show? Exploring that question led us to accreditation and the assessment work behind it.</p>
+      <p class="body-sm reveal" style="--d:.16s">We are developing Aolia through ongoing conversations with faculty, assessment directors, and accreditation leaders. Their experience helps shape the workflows, priorities, and safeguards we build. We share what we learn along the way, including the questions that are still open.</p>
     </div>
   </div>
 
@@ -337,7 +353,7 @@
     <img class="quote-mark" src="assets/quote-mark.svg" alt="">
     <blockquote>Accreditation is critical for business schools in today's market, with nothing more time consuming in that process than assessment. A tool that frees faculty from the meticulous processes associated with assessment - while strengthening the evidence underneath it - isn't just useful. That's a game changer.</blockquote>
     <figcaption>
-      <p class="who">Henry Y. Hwang Dean, Drucker School of Management</p>
+      <p class="who">David Sprott, Henry Y. Hwang Dean, Drucker School of Management</p>
       <p class="org">Claremont Graduate University</p>
     </figcaption>
   </figure>
@@ -355,6 +371,13 @@
 
   <div class="team-wrap">
     <div class="team-track" id="teamTrack" data-stagger>
+      <article class="t-card reveal">
+        <div class="portrait"><img src="assets/team-jerelyn.png" alt="Jerelyn Co portrait illustration" style="height:162px;"></div>
+        <h3 class="name">Jerelyn Co</h3>
+        <p class="role">AI Technical Lead</p>
+        <p class="desc">Leads the technical strategy of the AI<br>team.</p>
+        <p class="li"><a href="#">Linkedin</a></p>
+      </article>
       <article class="t-card reveal">
         <div class="portrait"><img src="assets/team-daisuke.png" alt="Daisuke Nishimura portrait illustration" style="height:151px;"></div>
         <h3 class="name">Daisuke Nishimura</h3>
@@ -381,13 +404,6 @@
         <h3 class="name">Dolma Rawat</h3>
         <p class="role">Go to Market &amp; Research Lead</p>
         <p class="desc">Lead product and customer research for<br>Aolia.</p>
-        <p class="li"><a href="#">Linkedin</a></p>
-      </article>
-      <article class="t-card reveal">
-        <div class="portrait"><img src="assets/team-jerelyn.png" alt="Jerelyn Co portrait illustration" style="height:162px;"></div>
-        <h3 class="name">Jerelyn Co</h3>
-        <p class="role">AI Technical Lead</p>
-        <p class="desc">Leads the technical strategy of the AI<br>team.</p>
         <p class="li"><a href="#">Linkedin</a></p>
       </article>
       <article class="t-card reveal">
@@ -433,14 +449,12 @@
 <!-- ================= FINAL CTA ================= -->
 <section class="container cta">
   <img class="mark reveal" src="assets/cta-mark.svg" alt="">
-  <h2 class="serif reveal" style="--d:.1s">Follow the work as it happens.</h2>
+  <h2 class="serif reveal" style="--d:.1s">Interested in becoming a design partner?</h2>
   <p class="lede reveal" style="--d:.2s">
-    We’re sharing the research, the hard questions, and what
-    we’re building — with the people who know this work best.
+    If you work on assessment for accreditation, we’d like to learn from your experience.
+    We’re inviting a small group of faculty and assessment teams to bring their perspectives to the work as it develops.
   </p>
-  <div class="subscribe reveal" style="--d:.3s">
-    <iframe src="https://blog.aolia.ai/embed" width="480" height="150" title="Subscribe to Aolia" loading="lazy"></iframe>
-  </div>
+  <a class="cta-link reveal" style="--d:.3s" href="mailto:hello@aolia.ai?subject=Design%20partner%20interest">Get in touch</a>
 </section>
 
 <!-- ================= FOOTER ================= -->
